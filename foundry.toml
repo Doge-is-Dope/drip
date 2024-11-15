@@ -6,6 +6,7 @@ libs = ["lib"]
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
 [rpc_endpoints]
 base-sepolia = "${RPC_BASE_SEPOLIA}"
-
-[etherscan]
-base-sepolia = { key = "${ETHERSCAN_API_KEY}" }
+world-sepolia = "${RPC_WORLD_SEPOLIA}"
+mantle-sepolia = "${RPC_MANTLE_SEPOLIA}"
+polygonzkevm-cardona = "${RPC_POLYGONZKEVM_CARDONA}"
+hedera-testnet = "${RPC_HEDERA_TESTNET}"

@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
+
+import "../lib/forge-std/src/Script.sol";
+import {console} from "forge-std/console.sol";
+
+contract BaseDeploy is Script {
+    uint256 internal immutable deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+
+    modifier broadcast() {
+        vm.startBroadcast(deployerPrivateKey);
+        _;
+        vm.stopBroadcast();
+    }
+
+    function calculateSalt(string memory input) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked(input)) & ~bytes32(uint256(0xfff));
+    }
+}
