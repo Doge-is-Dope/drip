@@ -7,8 +7,9 @@ import {console} from "forge-std/console.sol";
 contract BaseDeploy is Script {
     uint256 internal immutable deployerPrivateKey = vm.envUint("PRIVATE_KEY");
 
-    modifier broadcast() {
-        vm.startBroadcast(deployerPrivateKey);
+    modifier broadcast(uint256 privateKey) {
+        require(privateKey != 0, "Private key is required");
+        vm.startBroadcast(privateKey);
         _;
         vm.stopBroadcast();
     }

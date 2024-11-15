@@ -15,7 +15,7 @@ contract DeployMock is BaseDeploy {
         console.log("ERC20Mock deployed to", deployed);
     }
 
-    function _deployContract(bytes32 salt) internal broadcast returns (address) {
+    function _deployContract(bytes32 salt) internal broadcast(deployerPrivateKey) returns (address) {
         return Create2.deploy(0, salt, _getCreationBytecode());
     }
 

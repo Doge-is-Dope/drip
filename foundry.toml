@@ -5,6 +5,7 @@ libs = ["lib"]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
 [rpc_endpoints]
+sepolia = "${RPC_SEPOLIA}"
 base-sepolia = "${RPC_BASE_SEPOLIA}"
 world-sepolia = "${RPC_WORLD_SEPOLIA}"
 mantle-sepolia = "${RPC_MANTLE_SEPOLIA}"

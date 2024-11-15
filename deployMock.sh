@@ -43,6 +43,7 @@ eval $COMMAND
 
 
 # Examples
+# ./deployMock.sh sepolia https://eth-sepolia.blockscout.com
 # ./deployMock.sh base-sepolia https://base-sepolia.blockscout.com
 # ./deployMock.sh world-sepolia https://worldchain-sepolia.explorer.alchemy.com
 # ./deployMock.sh mantle-sepolia https://explorer.sepolia.mantle.xyz
