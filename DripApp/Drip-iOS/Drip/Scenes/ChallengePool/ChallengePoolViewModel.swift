@@ -11,11 +11,13 @@ import BigInt
 final class ChallengePoolViewModel: ObservableObject {
     @Published var challenges: [DripChallenge] = []
     @Published var epochInfo: DripEpochInfo?
+    @Published var isClaimed: Bool = false
 
     let rpcService: RPCService
 
     private lazy var profileContract = DripProfileContract(rpcService: rpcService, contractAddress: DripContracts.profile)
     private lazy var challengeManagerContract = ChallengeManagerContract(rpcService: rpcService, contractAddress: DripContracts.challengeManager)
+    private lazy var erc20TokenContract = DripERC20Contract(rpcService: rpcService, contractAddress: DripContracts.dripERC20Token)
 
     init(rpcService: RPCService) {
         self.rpcService = rpcService
@@ -43,6 +45,16 @@ final class ChallengePoolViewModel: ObservableObject {
                     guard let self else { return }
                     self.epochInfo = epochInfo
                 }
+            }
+        }
+    }
+
+    func claim() {
+        Task {
+            await erc20TokenContract.claim()
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.isClaimed = true
             }
         }
     }

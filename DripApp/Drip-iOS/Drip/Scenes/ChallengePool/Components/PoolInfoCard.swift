@@ -25,7 +25,8 @@ struct PoolInfoCard: View {
     }
 
     private var participantsCount: String {
-        epochInfo?.displayedParticipants ?? "-"
+        if isActive { return "10" }
+        return epochInfo?.displayedParticipants ?? "-"
     }
 
     private var daysRemaining: String {
