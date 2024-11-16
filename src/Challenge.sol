@@ -74,9 +74,7 @@ contract Challenge is ERC721, IChallenge {
         emit ChallengeCreated(_tokenId, params.owner);
 
         // Add the challenge to the epoch
-        IChallengeManager(managerContract).addChallengeToEpoch(
-            params.epochId, _tokenId, params.owner, params.depositAmount
-        );
+        IChallengeManager(managerContract).addChallengeToEpoch(params.epochId, challenge);
 
         // Return challenge ID and increment the token counter
         challengeId = _tokenId;
@@ -112,6 +110,12 @@ contract Challenge is ERC721, IChallenge {
         require(block.timestamp >= dayStartTime && block.timestamp <= dayEndTime, ErrorsLib.NOT_IN_TIME_RANGE);
 
         challenge.dailyCompletionTimestamps[day] = block.timestamp;
+
+        // Update vault
+        (Types.Epoch memory epoch,) = IChallengeManager(managerContract).getEpochInfo(challenge.epochId);
+        DripVault vault = DripVault(epoch.vault);
+        vault.submitDailyCompletion(owner, challenge.dailyCompletionTimestamps);
+
         emit DailyCompletionSubmitted(tokenId, day);
     }
 }

@@ -84,11 +84,4 @@ library Types {
         // Token address => is whitelisted
         mapping(address => bool) isWhitelistedToken;
     }
-
-    struct VaultStorage {
-        // Epoch ID => total deposits
-        mapping(uint256 => uint256) epochTotalDeposits;
-        // Epoch ID => failed deposits
-        mapping(uint256 => uint256) epochFailedDeposits;
-    }
 }

@@ -81,7 +81,7 @@ contract ChallengeManager is Ownable, IChallengeManager {
 
         uint256 endTimestamp = TimeLib.addDaysToTimestamp(start, durationInDays);
 
-        DripVault vault = new DripVault(asset);
+        DripVault vault = new DripVault(asset, address(this));
 
         Types.Epoch memory epoch = Types.Epoch({
             id: id,
@@ -100,17 +100,15 @@ contract ChallengeManager is Ownable, IChallengeManager {
         emit EpochStarted(id, start, endTimestamp);
     }
 
-    function addChallengeToEpoch(uint256 epochId, uint256 challengeId, address challengeOwner, uint256 depositAmount)
-        external
-        onlyChallenge
-    {
+    function addChallengeToEpoch(uint256 epochId, Types.Challenge calldata userChallenge) external onlyChallenge {
         Types.ChallengeManagerStorage storage $ = _getChallengeManagerStorage();
         IERC20($.epochs[epochId].asset).approve($.epochs[epochId].vault, type(uint256).max);
-        IERC4626($.epochs[epochId].vault).deposit(depositAmount, challengeOwner);
+        IERC4626($.epochs[epochId].vault).deposit(userChallenge.depositAmount, userChallenge.owner);
+        DripVault($.epochs[epochId].vault).setOwnerChallengeDays(userChallenge.owner, userChallenge.durationInDays);
 
-        $.epochChallenges[epochId].push(challengeId);
+        $.epochChallenges[epochId].push(userChallenge.id);
         EnumerableSet.AddressSet storage participants = $.epochParticipants[epochId];
-        participants.add(challengeOwner);
+        participants.add(userChallenge.owner);
         // Update epoch info
         $.epochs[epochId].totalDeposits = IERC4626($.epochs[epochId].vault).totalAssets();
         $.epochs[epochId].participantCount = participants.length();
@@ -135,6 +133,26 @@ contract ChallengeManager is Ownable, IChallengeManager {
         $.epochs[epochId] = epoch;
         $.currentEpoch = epoch;
         $.nextEpochId++;
+    }
+
+    /**
+     * @notice Preview rewards in an epoch
+     */
+    function previewClaimRewards(address owner, uint256 epochId) public view returns (uint256) {
+        Types.Epoch memory epoch = _getChallengeManagerStorage().epochs[epochId];
+        DripVault vault = DripVault(epoch.vault);
+        return vault.previewClaim(owner);
+    }
+
+    /**
+     * @notice Claim rewards in an epoch
+     */
+    function claimRewards(address owner, uint256 epochId) external {
+        require(owner == msg.sender, ErrorsLib.NOT_AUTHORIZED);
+        Types.Epoch memory epoch = _getChallengeManagerStorage().epochs[epochId];
+        require(getEpochStatus(epochId) == Types.EpochStatus.Ended, ErrorsLib.INVALID_EPOCH_STATUS);
+        DripVault vault = DripVault(epoch.vault);
+        vault.claim(owner);
     }
 
     /// @dev Returns the storage struct of ChallengeManager.

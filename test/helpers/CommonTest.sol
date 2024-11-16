@@ -43,13 +43,23 @@ contract CommonTest is Test {
     /// @notice Helper: Create a profile for a specific owner
     /// @param owner The owner of the profile
     /// @return profileId The ID of the created profile
-    function _createProfile(address owner, string calldata handle) internal returns (uint256) {
+    function _createProfile(address owner, string memory handle) internal returns (uint256) {
         uint32[] memory avatar = _createAvatar(5);
         return profile.createProfile(owner, handle, avatar);
     }
 
+    function _createDummyProfiles() internal returns (uint256, uint256) {
+        vm.startPrank(USER1);
+        uint256 profileId1 = _createProfile(USER1, "@user1");
+        vm.stopPrank();
+        vm.startPrank(USER2);
+        uint256 profileId2 = _createProfile(USER2, "@user2");
+        vm.stopPrank();
+        return (profileId1, profileId2);
+    }
+
     function _setUpEpoch(uint256 id, uint256 startTimestamp, string memory description) internal {
-        DripVault vault = new DripVault(address(mockToken));
+        DripVault vault = new DripVault(address(mockToken), address(challengeManager));
         Types.Epoch memory epoch = Types.Epoch({
             id: id,
             startTimestamp: startTimestamp,
@@ -66,5 +76,10 @@ contract CommonTest is Test {
 
     function _approveToken(address token, address spender, uint256 amount) internal {
         IERC20(token).approve(spender, amount);
+    }
+
+    function _createDummyEpoch() internal returns (uint256) {
+        vm.prank(DRIP);
+        return challengeManager.startEpoch("test", block.timestamp, 5, address(mockToken));
     }
 }

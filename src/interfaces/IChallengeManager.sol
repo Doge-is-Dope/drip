@@ -35,8 +35,7 @@ interface IChallengeManager {
     /**
      * @dev Adds a challenge to an epoch
      */
-    function addChallengeToEpoch(uint256 epochId, uint256 challengeId, address challengeOwner, uint256 depositAmount)
-        external;
+    function addChallengeToEpoch(uint256 epochId, Types.Challenge calldata challenge) external;
 
     /**
      * @dev Returns the challenges for an epoch
@@ -47,4 +46,14 @@ interface IChallengeManager {
      * @dev Returns if a token is whitelisted for depositing when creating a challenge
      */
     function isWhiteListedToken(address token) external view returns (bool isWhitelisted);
+
+    /**
+     * @dev Preview rewards in an epoch
+     */
+    function previewClaimRewards(address owner, uint256 epochId) external view returns (uint256);
+
+    /**
+     * @dev Claim rewards in an epoch
+     */
+    function claimRewards(address owner, uint256 epochId) external;
 }

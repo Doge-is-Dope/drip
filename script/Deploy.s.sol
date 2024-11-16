@@ -75,7 +75,7 @@ contract Deploy is BaseDeploy {
 
     /// @notice DEMO only - Helper function to create an epoch
     function _createEpoch(uint256 id, uint256 startTimestamp, string memory description) private {
-        DripVault vault = new DripVault(MOCK_TOKEN);
+        DripVault vault = new DripVault(MOCK_TOKEN, address(challengeManager));
         Types.Epoch memory epoch = Types.Epoch({
             id: id,
             startTimestamp: startTimestamp,
