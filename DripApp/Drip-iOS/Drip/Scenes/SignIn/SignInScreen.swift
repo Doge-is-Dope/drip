@@ -12,7 +12,7 @@ struct SignInScreen: View {
     var onSignIn: (() -> Void)?
 
     @StateObject private var viewModel: SignInViewModel
-    @State private var emailText: String = ""
+    @State private var emailText: String = "yuhsuan19@gmail.com"
 
     init(viewModel: SignInViewModel, onSignIn: (() -> Void)? = nil) {
         _viewModel = StateObject(wrappedValue: viewModel)
