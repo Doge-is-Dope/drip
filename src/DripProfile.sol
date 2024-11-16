@@ -112,6 +112,24 @@ contract DripProfile is ERC721, IDripProfile {
         return challengeId;
     }
 
+    /// @dev Only for demo
+    function createChallengeDemo(
+        uint256 profileId,
+        uint256 epochId,
+        string calldata name,
+        string calldata description,
+        uint256 startTime,
+        uint256 depositAmount,
+        uint16 durationInDays
+    ) external onlyProfileOwner(profileId) returns (uint256) {
+        require(profileId != 0, ErrorsLib.PROFILE_NOT_EXISTS);
+        Types.CreateChallengeParams memory params =
+            Types.CreateChallengeParams(msg.sender, depositAmount, epochId, durationInDays, name, description);
+        uint256 challengeId = challenge.createChallengeDemo(params, epochId, startTime);
+        _profileIdToEpochIdToChallengeIds[profileId][epochId].push(challengeId);
+        return challengeId;
+    }
+
     /**
      * @dev Retrieves the challenges associated with a profile.
      * @param profileId The ID of the profile to retrieve the challenges.
@@ -146,6 +164,11 @@ contract DripProfile is ERC721, IDripProfile {
         onlyProfileOwner(profileId)
     {
         challenge.submitDailyCompletion(msg.sender, challengeId, day);
+    }
+
+    /// @dev Only for demo
+    function setDailyCompletionDemo(uint256 challengeId, uint256[] memory timestamps) external {
+        challenge.setDailyCompletionDemo(msg.sender, challengeId, timestamps);
     }
 
     function _update(address to, uint256 tokenId, address auth) internal override returns (address) {

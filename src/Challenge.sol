@@ -6,6 +6,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {IERC4626} from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import {ERC20} from "../lib/solmate/src/tokens/ERC20.sol";
 import {SafeTransferLib} from "../lib/solmate/src/utils/SafeTransferLib.sol";
+import {ChallengeManager} from "./ChallengeManager.sol";
 import {IChallengeManager} from "./interfaces/IChallengeManager.sol";
 import {IChallenge} from "./interfaces/IChallenge.sol";
 import {Types} from "./libraries/Types.sol";
@@ -117,5 +118,58 @@ contract Challenge is ERC721, IChallenge {
         vault.submitDailyCompletion(owner, challenge.dailyCompletionTimestamps);
 
         emit DailyCompletionSubmitted(tokenId, day);
+    }
+
+    /// @dev Only for demo
+    function createChallengeDemo(Types.CreateChallengeParams calldata params, uint256 epochId, uint256 startTime)
+        external
+        onlyProfile(params.owner)
+        returns (uint256 challengeId)
+    {
+        (Types.Epoch memory epoch,) = IChallengeManager(managerContract).getEpochInfo(epochId);
+
+        // Transfer epoch asset from user to challenge manager
+        ERC20(epoch.asset).safeTransferFrom(params.owner, managerContract, params.depositAmount);
+
+        // Calculate duration and end time
+        uint256 endTime = TimeLib.addDaysToTimestamp(startTime, params.durationInDays);
+
+        Types.Challenge storage challenge = _challenges[_tokenId];
+        challenge.id = _tokenId;
+        challenge.title = params.title;
+        challenge.description = params.description;
+        challenge.owner = params.owner;
+        challenge.startTime = startTime;
+        challenge.endTime = endTime;
+        challenge.depositAmount = params.depositAmount;
+        challenge.depositToken = address(0); // TODO: Get from epoch
+        challenge.durationInDays = params.durationInDays;
+        challenge.epochId = params.epochId;
+        challenge.dailyCompletionTimestamps = new uint256[](params.durationInDays);
+
+        // Mint and emit the challenge event
+        _safeMint(params.owner, _tokenId);
+        emit ChallengeCreated(_tokenId, params.owner);
+
+        // Add the challenge to the epoch
+        ChallengeManager(managerContract).addChallengeToEpochDemo(params.epochId, challenge);
+
+        // Return challenge ID and increment the token counter
+        challengeId = _tokenId;
+        ++_tokenId;
+    }
+
+    function setDailyCompletionDemo(address owner, uint256 tokenId, uint256[] memory timestamps)
+        external
+        onlyProfile(owner)
+    {
+        Types.Challenge storage challenge = _challenges[tokenId];
+
+        challenge.dailyCompletionTimestamps = timestamps;
+
+        // Update vault
+        (Types.Epoch memory epoch,) = IChallengeManager(managerContract).getEpochInfo(challenge.epochId);
+        DripVault vault = DripVault(epoch.vault);
+        vault.submitDailyCompletion(owner, challenge.dailyCompletionTimestamps);
     }
 }

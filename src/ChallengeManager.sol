@@ -126,13 +126,27 @@ contract ChallengeManager is Ownable, IChallengeManager {
         return _getChallengeManagerStorage().isWhitelistedToken[token];
     }
 
-    /// @notice DEMO ONLY
-    /// @notice Sets the epoch.
-    function setEpoch(uint256 epochId, Types.Epoch memory epoch) external onlyOwner {
+    /// @dev DEMO ONLY
+    function setEpoch(uint256 epochId, Types.Epoch memory epoch) external {
         Types.ChallengeManagerStorage storage $ = _getChallengeManagerStorage();
         $.epochs[epochId] = epoch;
         $.currentEpoch = epoch;
         $.nextEpochId++;
+    }
+
+    /// @dev DEMO ONLY
+    function addChallengeToEpochDemo(uint256 epochId, Types.Challenge calldata userChallenge) external onlyChallenge {
+        Types.ChallengeManagerStorage storage $ = _getChallengeManagerStorage();
+        IERC20($.epochs[epochId].asset).approve($.epochs[epochId].vault, type(uint256).max);
+        IERC4626($.epochs[epochId].vault).deposit(userChallenge.depositAmount, userChallenge.owner);
+        DripVault($.epochs[epochId].vault).setOwnerChallengeDays(userChallenge.owner, userChallenge.durationInDays);
+
+        $.epochChallenges[epochId].push(userChallenge.id);
+        EnumerableSet.AddressSet storage participants = $.epochParticipants[epochId];
+        participants.add(userChallenge.owner);
+        // Update epoch info
+        $.epochs[epochId].totalDeposits = IERC4626($.epochs[epochId].vault).totalAssets();
+        $.epochs[epochId].participantCount = participants.length();
     }
 
     /**
