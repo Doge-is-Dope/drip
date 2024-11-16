@@ -9,12 +9,15 @@ import {DripProfile} from "../../src/DripProfile.sol";
 import {ChallengeManager} from "../../src/ChallengeManager.sol";
 import {DripVault} from "../../src/DripVault.sol";
 import {Types} from "../../src/libraries/Types.sol";
+import {TimeLib} from "../../src/libraries/TimeLib.sol";
 
 uint256 constant MIN_AMOUNT = 100;
 uint256 constant MAX_AMOUNT = 2 ** 64;
 uint256 constant DURATION = 5 days;
 
 contract CommonTest is Test {
+    using TimeLib for uint256;
+
     DripProfile internal profile;
     Challenge internal challenge;
     ChallengeManager internal challengeManager;
@@ -51,7 +54,7 @@ contract CommonTest is Test {
             id: id,
             startTimestamp: startTimestamp,
             endTimestamp: startTimestamp + DURATION,
-            durationInDays: _getDurationInDays(DURATION),
+            durationInDays: DURATION.convertSecondsToDays(),
             vault: address(vault),
             asset: address(mockToken),
             description: description,
@@ -59,10 +62,6 @@ contract CommonTest is Test {
             totalDeposits: 0
         });
         challengeManager.setEpoch(id, epoch);
-    }
-
-    function _getDurationInDays(uint256 duration) private pure returns (uint16) {
-        return uint16(duration / 1 days);
     }
 
     function _approveToken(address token, address spender, uint256 amount) internal {

@@ -12,9 +12,14 @@ library TimeLib {
      * @param daysOffset The number of days to add.
      * @return Timestamp of the result.
      */
-    function addDaysToTimestamp(uint256 startTime, uint16 daysOffset) internal pure returns (uint256) {
+    function addDaysToTimestamp(uint256 startTime, uint16 daysOffset) public pure returns (uint256) {
         uint256 dayStartInSeconds = _daysToSeconds(daysOffset);
         return _addSeconds(startTime, dayStartInSeconds);
+    }
+
+    /// @dev Convert duration in seconds to days.
+    function convertSecondsToDays(uint256 duration) public pure returns (uint16) {
+        return uint16(duration / 1 days);
     }
 
     function _daysToSeconds(uint16 day) private pure returns (uint256) {
