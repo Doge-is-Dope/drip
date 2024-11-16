@@ -18,6 +18,11 @@ contract Deploy is BaseDeploy {
     // Constants
     uint256 private constant DURATION = 5 days;
     address private constant MOCK_TOKEN = 0x235c36243BD73d65B530a469658FeF591daA2f45; // Vault: underlying token
+    address private constant CLE = 0x8D0B05b837FB0e28e78b8939dDaD8CE7B91b678D;
+    address private constant SHA = 0xE033dfbeE8CB2DaE2F4FB13acb5d493f1fDEA318;
+
+    // Private Keys
+    uint256 internal immutable ShanePrivateKey = vm.envUint("PRIVATE_KEY_SHA");
 
     // Contract Instances
     Challenge challenge;

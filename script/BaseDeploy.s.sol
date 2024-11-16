@@ -14,6 +14,6 @@ contract BaseDeploy is Script {
     }
 
     function _calculateSalt(string memory input) internal pure returns (bytes32) {
-        return keccak256(abi.encodePacked(input)) & ~bytes32(uint256(0xffff) - 4);
+        return keccak256(abi.encodePacked(input)) & ~bytes32(uint256(0xffff) - 5);
     }
 }
