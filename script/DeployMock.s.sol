@@ -9,7 +9,7 @@ import {BaseDeploy} from "./BaseDeploy.s.sol";
 contract DeployMock is BaseDeploy {
     function run() public {
         // Calculate salt
-        bytes32 salt = calculateSalt("Drip.Erc20Mock");
+        bytes32 salt = _calculateSalt("Drip.Erc20Mock");
         // Deploy contracts on all supported chains
         address deployed = _deployContract(salt);
         console.log("ERC20Mock deployed to", deployed);

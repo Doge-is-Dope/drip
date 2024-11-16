@@ -7,7 +7,4 @@ libs = ["lib"]
 [rpc_endpoints]
 sepolia = "${RPC_SEPOLIA}"
 base-sepolia = "${RPC_BASE_SEPOLIA}"
-world-sepolia = "${RPC_WORLD_SEPOLIA}"
 mantle-sepolia = "${RPC_MANTLE_SEPOLIA}"
-polygonzkevm-cardona = "${RPC_POLYGONZKEVM_CARDONA}"
-hedera-testnet = "${RPC_HEDERA_TESTNET}"
