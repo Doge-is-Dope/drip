@@ -8,10 +8,10 @@ import SwiftUI
 import ProgressHUD
 
 struct CreateChallengeScreen: View {
-    @State private var name: String = ""
-    @State private var amount: String = ""
-    @State private var days: String = ""
-    @State private var desc: String = ""
+    @State private var name: String = "ETHGlobal Bangkok"
+    @State private var amount: String = "20"
+    @State private var days: String = "5"
+    @State private var desc: String = "Demo in ETHGlobal Bangkok"
     @Environment(\.dismiss) private var dismiss
 
     @StateObject private var viewModel: CreateChallengeViewModel

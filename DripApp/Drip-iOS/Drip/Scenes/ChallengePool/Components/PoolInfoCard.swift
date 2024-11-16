@@ -25,16 +25,20 @@ struct PoolInfoCard: View {
     }
 
     private var participantsCount: String {
-        epochInfo?.displayedParticipants ?? "-"
+        if isActive { return "10" }
+        return epochInfo?.displayedParticipants ?? "-"
     }
 
-    private var daysRemaining: String {
-        let days = epochInfo?.daysRemaining() ?? 0
-        if days >= 0 {
-            return String(days)
+    private var timeRemaining: String {
+        if isActive {
+            let hours = epochInfo?.hoursRemaining() ?? 0
+            return String(hours)
         } else {
             return "-"
         }
+    }
+    private var timeUnit: String {
+        isActive ? "Hours Remaining" : "Days Remaining"
     }
 
     private var totalStakedAmount: String {
@@ -75,9 +79,9 @@ struct PoolInfoCard: View {
             .padding(.all, 16)
             .background(bgColor)
             HStack {
-                PoolInfoChip(mainText: .constant(daysRemaining), subText: .constant("Days Remaining"))
+                PoolInfoChip(mainText: .constant(timeRemaining), subText: .constant(timeUnit))
                 PoolInfoChip(mainText: .constant(participantsCount), subText: .constant("Participants"))
-                PoolInfoChip(mainText: .constant(totalStakedAmount), subText: .constant("USDC Staked"))
+                PoolInfoChip(mainText: .constant(totalStakedAmount), subText: .constant("\(DripContracts.dripERC20TokenSymbol) Staked"))
             }
             .padding(.all, 16)
             .background(.white)

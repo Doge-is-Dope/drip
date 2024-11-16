@@ -5,13 +5,14 @@
 //  Created by Shane Chi
 
 import SwiftUI
+import ProgressHUD
 
 struct SetProfileScreen: View {
     
     var onSignIn: (() -> Void)?
 
     @StateObject private var viewModel: SetProfileViewModel
-    @State private var username: String = ""
+    @State private var username: String = "YuHsuan Chi"
 
     init(viewModel: SetProfileViewModel, onSignIn: (() -> Void)? = nil
     ) {
@@ -58,6 +59,7 @@ struct SetProfileScreen: View {
             }
             Spacer()
             ActionButton(title: "Done") {
+                ProgressHUD.animate("Almost there 🤜🤛")
                 viewModel.setProfile(userHandle: username)
             }
         }
@@ -68,6 +70,8 @@ struct SetProfileScreen: View {
         .onChange(of: viewModel.isProfileCreated) {
             guard viewModel.isProfileCreated else { return }
             onSignIn?()
+            viewModel.isProfileCreated = false
+            ProgressHUD.dismiss()
         }
     }
 }

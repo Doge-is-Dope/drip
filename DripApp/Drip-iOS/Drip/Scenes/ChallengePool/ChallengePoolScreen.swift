@@ -6,6 +6,7 @@
 
 import SwiftUI
 import BigInt
+import ProgressHUD
 
 struct ChallengePoolScreen: View {
     var onLogOut: (() -> Void)?
@@ -163,13 +164,18 @@ struct ChallengePoolScreen: View {
             viewModel.fetchChallenges()
             viewModel.fetchEpochInfo()
         }
+        .onChange(of: viewModel.isClaimed) {
+            ProgressHUD.dismiss()
+            viewModel.isClaimed = false
+        }
     }
 
     private func onCardButtonTap() {
         if selectedPoolIndex == 0 {
             isPresentingLeaderBoardScreen = true
         } else {
-            // claim
+            ProgressHUD.animate("Almost there 🤜🤛")
+            viewModel.claim()
         }
     }
 }

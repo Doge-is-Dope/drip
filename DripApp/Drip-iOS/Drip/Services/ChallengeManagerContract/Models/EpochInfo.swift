@@ -108,6 +108,19 @@ extension DripEpochInfo {
         return daysDifference
     }
 
+    func hoursRemaining() -> Int {
+        let now = Date()
+        let end = endTimestamp.description
+        let targetDate = Date(timeIntervalSince1970: Double(end) ?? 0)
+
+        let calendar = Calendar.current
+        guard let hoursDifference = calendar.dateComponents([.hour], from: now, to: targetDate).hour else {
+            return 0
+        }
+
+        return hoursDifference
+    }
+
     var totalStakedAmount: String {
         totalDeposits.description.convertBigIntToDecimalFormat(
             decimals: 18,

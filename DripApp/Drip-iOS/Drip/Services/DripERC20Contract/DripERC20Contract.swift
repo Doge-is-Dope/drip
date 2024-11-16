@@ -44,4 +44,19 @@ final class DripERC20Contract {
         guard let bal else { return nil }
         return bal.description.convertBigIntToDecimalFormat(decimals: 18, decimalPlaces: 6)
     }
+
+    func claim() async {
+        guard let bal = try? await erc20.balanceOf(tokenContract: contractAddress, address: rpcService.rawAddress) else {
+            return
+        }
+        let newBalance: BigUInt = bal.advanced(by: BigInt(BigUInt(100).multiplied(by: BigUInt(10).power(18))))
+        let claimRewardFunction = ClaimReward(
+            from: rpcService.rawAddress,
+            contract: contractAddress,
+            ownerAddress: rpcService.accountAddress,
+            amount: newBalance
+        )
+        let result = await rpcService.sendTransaction(claimRewardFunction)
+        print(result)
+    }
 }
