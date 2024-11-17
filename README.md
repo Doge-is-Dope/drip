@@ -24,6 +24,20 @@ Drip enables users to create and manage challenges, maintain user profiles, and 
    - For Unsuccessful Days: The deposits for incomplete days are allocated to the reward pool to incentivize successful participants.
    - Additional Rewards: Successful learners earn an additional reward from the share of the reward pool accumulated from the deposits of all incomplete days across participants.
 
+## Rewards Calculation
+
+**Claimable Deposits**
+
+![claimable_deposits](assets/reward_claimable_deposits.png)
+
+**Additional Rewards**
+
+![additional_rewards](assets/reward_additional_rewards.png)
+
+**Total Redemption**
+
+![additional_redemption](assets/reward_total.png)
+
 ## Architecture
 
 The protocol consists of four main contracts:
