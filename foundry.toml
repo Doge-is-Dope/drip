@@ -8,3 +8,4 @@ libs = ["lib"]
 sepolia = "${RPC_SEPOLIA}"
 base-sepolia = "${RPC_BASE_SEPOLIA}"
 mantle-sepolia = "${RPC_MANTLE_SEPOLIA}"
+polygonzkevm-cardona = "${RPC_POLYGONZKEVM_CARDONA}"
