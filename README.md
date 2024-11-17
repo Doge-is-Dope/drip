@@ -1,70 +1,79 @@
-# Drip Protocol
+# Drip
 
-A decentralized challenge and profile management system built on Ethereum.
+A revolutionary decentralized incentive learning system built on-chain.
 
 ## Overview
 
-Drip Protocol is a smart contract system that enables users to create and manage challenges, maintain profiles, and handle token vaults. The protocol consists of several key components:
+Drip enables users to create and manage challenges, maintain user profiles, and handle tokenized vaults. The system is composed of several key components:
 
-- Challenge: Manages individual challenges
-- ChallengeManager: Orchestrates challenge creation and management
-- DripProfile: Handles user profiles and their associated data
-- DripVault: Manages token deposits and withdrawals
+- DripProfile: An ERC-721 that governs user profiles and associated data.
+- Challenge: An ERC-721 to manage individual challenges.
+- ChallengeManager: Coordinates the creation and lifecycle management of challenges.
+- DripVault: An ERC-4626-compliant vault that handles token deposits and withdrawals.
 
-## Contract Addresses
+## How It Works
 
-Challenge: 0xaDcaAe61b8983940FB2c8098BDe112e507A0e1f0
-ChallengeManager: 0xB3084eF0Dc7440e32A6cD64e2E5072FBCd9AEEeE
-DripProfile: 0x0E69Ba1FF53c36D0fbb4fccC0e9B732D58593B2f
+1. Initiate a Challenge:
+   - Learners can start a challenge within a predefined timeframe, choosing an amount to deposit as a commitment.
+2. Receive a Progress-Tracking NFT:
+   - Upon creation, the learner is issued an NFT that records their challenge progress.
+3. Daily Task Completion:
+   - Learners complete assigned tasks daily. Task progress is automatically updated and reflected in the NFT.
+4. Challenge Outcome:
+   - For Successful Days: Learners retrieve their deposited amount corresponding to the days completed successfully.
+   - For Unsuccessful Days: The deposits for incomplete days are allocated to the reward pool to incentivize successful participants.
+   - Additional Rewards: Successful learners earn an additional reward from the share of the reward pool accumulated from the deposits of all incomplete days across participants.
 
-### Testnet (Goerli)
+## Rewards Calculation
 
-- Challenge: [Contract Address]
-- ChallengeManager: [Contract Address]
-- DripProfile: [Contract Address]
-- DripVault: [Contract Address]
+**Claimable Deposits**
+
+![claimable_deposits](assets/reward_claimable_deposits.png)
+
+**Additional Rewards**
+
+![additional_rewards](assets/reward_additional_rewards.png)
+
+**Total Redemption**
+
+![additional_redemption](assets/reward_total.png)
 
 ## Architecture
 
 The protocol consists of four main contracts:
 
-1. **Challenge.sol**: Core contract for challenge creation and management
+**Challenge.sol**: Foundational contract for challenge operations.
 
-   - Handles challenge parameters
-   - Manages challenge states
-   - Processes challenge completion
+- Facilitates challenge creation.
+- Manages the state of individual challenges.
+- Retrieves challenges for a specific epoch.
 
-2. **ChallengeManager.sol**: Orchestration layer for challenges
+**ChallengeManager.sol**: Orchestration layer for challenge lifecycles.
 
-   - Creates new challenges
-   - Manages challenge lifecycle
-   - Handles challenge verification
+- Establishes new epochs.
+- Manages the lifecycle of epochs.
+- Oversees epoch rewards using the DripVault.
 
-3. **DripProfile.sol**: User profile management
+**DripProfile.sol**: User profiles management and engagement.
 
-   - Stores user information
-   - Tracks challenge participation
-   - Manages user achievements
+- Enables profile creation.
+- Maintains and updates profile data.
+- Tracks and records daily completions.
 
-4. **DripVault.sol**: Token management
-   - Handles token deposits
-   - Processes withdrawals
-   - Manages challenge stakes
+**DripVault.sol**: Tokenized asset management of epoch rewards.
 
-## Libraries
+- Facilitates deposits and withdrawals of tokens.
 
-### TimeLib
+## Deployed Contract Addresses
 
-Utility library for time-based calculations and validations used throughout the protocol.
+Unified CREATE2 addresses for multi-chain deployment:
 
-### Types
+- Challenge: `0xaDcaAe61b8983940FB2c8098BDe112e507A0e1f0`
+- ChallengeManager: `0xB3084eF0Dc7440e32A6cD64e2E5072FBCd9AEEeE`
+- DripProfile: `0x0E69Ba1FF53c36D0fbb4fccC0e9B732D58593B2f`
 
-Contains core data structures and custom types used across the protocol.
+The contracts are live on the following testnets:
 
-## Security
-
-This protocol has been designed with security in mind. However, it has not been audited yet. Use at your own risk.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- Base Sepolia
+- Mantle Sepolia
+- Polygon zkEVM Cardona

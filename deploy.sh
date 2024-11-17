@@ -4,6 +4,7 @@
 CONFIGS=(
     "base-sepolia|https://base-sepolia.blockscout.com"
     "mantle-sepolia|https://explorer.sepolia.mantle.xyz"
+    "polygonzkevm-cardona|https://explorer-ui.cardona.zkevm-rpc.com"
 )
 
 # Function to display usage
@@ -41,7 +42,9 @@ deploy_to_chain() {
         --rpc-url "$rpc_url" \
         --verify \
         --verifier blockscout \
-        --verifier-url "$verifier_url/api/"
+        --verifier-url "$verifier_url/api/" \
+        --sender 0x8D0B05b837FB0e28e78b8939dDaD8CE7B91b678D \
+        --legacy
 }
 
 # Validate the option number

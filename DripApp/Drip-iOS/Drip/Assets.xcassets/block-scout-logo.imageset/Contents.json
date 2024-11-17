@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "block-scout-logo.jpeg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
