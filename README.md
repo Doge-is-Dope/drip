@@ -9,7 +9,9 @@
     A revolutionary decentralized incentive learning system built on-chain.
     <br />
     <br />
-    <a href="https://ethglobal.com/showcase/drip-e73wa">ETHGlobal Showcase</a>
+    <a href="https://ethglobal.com/showcase/drip-e73wa">Showcase</a>
+    ·
+    <a href="https://rich-tangelo-02d.notion.site/Drip-787aa87d794e4e439486f46fd54f00dd?pvs=74">Notion</a>
   </p>
 </p>
 
