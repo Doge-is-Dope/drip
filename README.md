@@ -92,24 +92,15 @@ Currently live on the following testnets:
 
 ## Contributors
 
-<div style="display: flex">
-<div style="text-align: center; display: inline-block;">
-  <a href="https://github.com/Doge-is-Dope">
-    <img src="https://avatars.githubusercontent.com/u/7845979?v=4" alt="" style="width:25%; border-radius: 50%;" />
-  </a>
-</div>
-<div style="text-align: center; display: inline-block;">
-  <a href="https://github.com/yuhsuan19">
-    <img src="https://avatars.githubusercontent.com/u/22169860?v=4" alt="" style="width:25%; border-radius: 50%;" />
-  </a>
-</div>
-<div style="text-align: center; display: inline-block;">
-  <a href="https://github.com/meatballjim">
-    <img src="https://avatars.githubusercontent.com/u/185509988?v=4" alt="" style="width:25%; border-radius: 50%;" />
-  </a>
-</div>
-<div style="text-align: center; display: inline-block;">
-  <a href="https://github.com/">
-    <img src="https://avatars.githubusercontent.com/u/0?v=4" alt="" style="width:25%; border-radius: 50%;" />
-  </a>
-</div>
+<a href="https://github.com/Doge-is-Dope">
+  <img src="https://avatars.githubusercontent.com/u/7845979?v=4" alt="" style="width:5%; border-radius: 50%;" />
+</a>
+<a href="https://github.com/yuhsuan19">
+  <img src="https://avatars.githubusercontent.com/u/22169860?v=4" alt="" style="width:5%; border-radius: 50%;" />
+</a>
+<a href="https://github.com/meatballjim">
+  <img src="https://avatars.githubusercontent.com/u/185509988?v=4" alt="" style="width:5%; border-radius: 50%;" />
+</a>
+<a href="https://github.com/">
+  <img src="https://avatars.githubusercontent.com/u/0?v=4" alt="" style="width:5%; border-radius: 50%;" />
+</a>
